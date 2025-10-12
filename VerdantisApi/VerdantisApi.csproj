@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VerdantisBusiness\VerdantisBusiness.csproj" />
+    <ProjectReference Include="..\VerdantisData\VerdantisData.csproj" />
   </ItemGroup>
 
 </Project>

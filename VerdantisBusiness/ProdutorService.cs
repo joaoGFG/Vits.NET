@@ -1,47 +1,56 @@
-﻿using VerdantisModel;
-using VerdantisData;
-using Microsoft.EntityFrameworkCore;
+﻿using VerdantisBusiness.DTOs;
+using VerdantisModel;
 
 namespace VerdantisBusiness;
 
-public class ProdutorService(ApplicationDbContext context) : IProdutorService
+public class ProdutorService(IProdutorRepository repo) : IProdutorService
 {
-    private readonly ApplicationDbContext _context = context;
+    private readonly IProdutorRepository _repo = repo;
 
-    public List<ProdutorModel> ListarTodos() => _context.Produtores.ToList();
+    public List<ProdutorResponseDto> ListarTodos()
+        => _repo.GetAll().Select(MapToResponse).ToList();
 
-    public ProdutorModel? ObterPorId(string id) =>
-        _context.Produtores.FirstOrDefault(p => p.Id == id);
+    public ProdutorResponseDto? ObterPorId(int id)
+        => _repo.GetById(id) is { } entity ? MapToResponse(entity) : null;
 
-    public ProdutorModel Criar(ProdutorModel produtor)
+    public ProdutorResponseDto Criar(ProdutorCreateDto dto)
     {
-        _context.Produtores.Add(produtor);
-        _context.SaveChanges();
-        return produtor;
+        var entity = new ProdutorModel
+        {
+            Nome = dto.Nome.Trim(),
+            TipoUsuarioId = dto.TipoUsuarioId,
+            DataCadastro = DateTime.UtcNow
+        };
+
+        _repo.Add(entity);
+        _repo.SaveChanges();
+
+        return MapToResponse(entity);
     }
 
-    public bool Atualizar(ProdutorModel produtor)
+    public bool Atualizar(ProdutorUpdateDto dto)
     {
-        var existente = _context.Produtores.Find(produtor.Id);
+        var existente = _repo.GetById(dto.Id);
         if (existente == null) return false;
 
-        existente.Nome = produtor.Nome;
-        existente.Propriedade = produtor.Propriedade;
-        existente.Localizacao = produtor.Localizacao;
-        existente.TipoCultura = produtor.TipoCultura;
-        existente.TamanhoHectares = produtor.TamanhoHectares;
+        existente.Nome = dto.Nome.Trim();
+        existente.TipoUsuarioId = dto.TipoUsuarioId;
 
-        _context.SaveChanges();
+        _repo.Update(existente);
+        _repo.SaveChanges();
         return true;
     }
 
-    public bool Remover(string id)
+    public bool Remover(int id)
     {
-        var produtor = _context.Produtores.Find(id);
-        if (produtor == null) return false;
+        var existente = _repo.GetById(id);
+        if (existente == null) return false;
 
-        _context.Produtores.Remove(produtor);
-        _context.SaveChanges();
+        _repo.Remove(existente);
+        _repo.SaveChanges();
         return true;
     }
+
+    private static ProdutorResponseDto MapToResponse(ProdutorModel p) =>
+        new(p.Id, p.Nome, p.DataCadastro, p.TipoUsuarioId);
 }

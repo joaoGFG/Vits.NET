@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VerdantisModel\VerdantisModel.csproj" />
-    <ProjectReference Include="..\VerdantisData\VerdantisData.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
