@@ -1,12 +1,12 @@
-﻿using VerdantisModel;
+﻿using VerdantisBusiness.DTOs;
 
 namespace VerdantisBusiness;
 
 public interface IProdutorService
 {
-    List<ProdutorModel> ListarTodos();
-    ProdutorModel? ObterPorId(string id);
-    ProdutorModel Criar(ProdutorModel produtor);
-    bool Atualizar(ProdutorModel produtor);
-    bool Remover(string id);
+    List<ProdutorResponseDto> ListarTodos();
+    ProdutorResponseDto? ObterPorId(int id);
+    ProdutorResponseDto Criar(ProdutorCreateDto produtor);
+    bool Atualizar(ProdutorUpdateDto produtor);
+    bool Remover(int id);
 }
