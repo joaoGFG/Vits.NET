@@ -1,6 +1,29 @@
-@VerdantisApi_HostAddress = http://localhost:5124
+﻿@baseUrl = https://localhost:5074
+@controller = produtores
+@id = 1
 
-GET {{VerdantisApi_HostAddress}}/weatherforecast/
+GET {{baseUrl}}/api/{{controller}}
 Accept: application/json
 
-###
+GET {{baseUrl}}/api/{{controller}}/{{id}}
+Accept: application/json
+
+POST {{baseUrl}}/api/{{controller}}
+Content-Type: application/json
+
+{
+  "nome": "Produtor Teste",
+  "tipoUsuarioId": 1
+}
+
+PUT {{baseUrl}}/api/{{controller}}
+Content-Type: application/json
+
+{
+  "id": {{id}},
+  "nome": "Produtor Atualizado",
+  "tipoUsuarioId": 1
+}
+
+DELETE {{baseUrl}}/api/{{controller}}/{{id}}
+Accept: application/json
