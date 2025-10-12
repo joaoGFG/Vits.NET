@@ -8,7 +8,7 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        optionsBuilder.UseOracle("User Id=system;Password=dOJN@IhD12342;Data Source=localhost:1521/FREEPDB1;");
+        optionsBuilder.UseOracle("User Id=rm559863;Password=110306;Data Source=oracle.fiap.com.br:1521/ORCL;");
         return new ApplicationDbContext(optionsBuilder.Options);
     }
 }
