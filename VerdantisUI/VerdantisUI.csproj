@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VerdantisApi\VerdantisApi.csproj" />
+    <ProjectReference Include="..\VerdantisBusiness\VerdantisBusiness.csproj" />
+    <ProjectReference Include="..\VerdantisData\VerdantisData.csproj" />
+    <ProjectReference Include="..\VerdantisModel\VerdantisModel.csproj" />
+  </ItemGroup>
+
+</Project>

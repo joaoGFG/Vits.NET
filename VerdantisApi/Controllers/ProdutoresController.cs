@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VerdantisBusiness;
 using VerdantisBusiness.DTOs;
+using VerdantisApi.DTOs;
 
 namespace VerdantisApi.Controllers;
 
@@ -12,14 +13,61 @@ public class ProdutoresController(IProdutorService produtorService) : Controller
     public IActionResult Get()
     {
         var produtores = produtorService.ListarTodos();
-        return produtores.Count == 0 ? NoContent() : Ok(produtores);
+        if (produtores.Count == 0) return NoContent();
+
+        var hateoasProdutores = produtores.Select(AddHateoasLinks).ToList();
+        return Ok(hateoasProdutores);
     }
 
     [HttpGet("{id:int}")]
     public IActionResult Get(int id)
     {
         var produtor = produtorService.ObterPorId(id);
-        return produtor == null ? NotFound() : Ok(produtor);
+        if (produtor == null) return NotFound();
+
+        var hateoasProdutor = AddHateoasLinks(produtor);
+        return Ok(hateoasProdutor);
+    }
+
+    [HttpGet("search")]
+    public IActionResult Search(
+        [FromQuery] string? nome,
+        [FromQuery] int page = 1,
+        [FromQuery] int size = 10,
+        [FromQuery] string sortBy = "Nome",
+        [FromQuery] bool ascending = true)
+    {
+        var result = produtorService.Search(nome, page, size, sortBy, ascending);
+        
+        var hateoasItems = result.Items.Select(AddHateoasLinks).ToList();
+        
+        var links = new List<LinkDto>
+        {
+            new(Url.Action(nameof(Search), new { nome, page, size, sortBy, ascending })!, "self", "GET")
+        };
+
+        if (result.HasNextPage)
+        {
+            links.Add(new(Url.Action(nameof(Search), new { nome, page = page + 1, size, sortBy, ascending })!, "next", "GET"));
+        }
+
+        if (result.HasPreviousPage)
+        {
+            links.Add(new(Url.Action(nameof(Search), new { nome, page = page - 1, size, sortBy, ascending })!, "prev", "GET"));
+        }
+
+        var pagedResult = new PagedHateoasResultDto<ProdutorHateoasDto>(
+            hateoasItems,
+            result.TotalItems,
+            result.Page,
+            result.Size,
+            result.TotalPages,
+            result.HasNextPage,
+            result.HasPreviousPage,
+            links
+        );
+
+        return Ok(pagedResult);
     }
 
     [HttpPost]
@@ -31,7 +79,9 @@ public class ProdutoresController(IProdutorService produtorService) : Controller
             return BadRequest("TipoUsuarioId é obrigatório.");
 
         var criado = produtorService.Criar(produtor);
-        return CreatedAtAction(nameof(Get), new { id = criado.Id }, criado);
+        var hateoasCriado = AddHateoasLinks(criado);
+        
+        return CreatedAtAction(nameof(Get), new { id = criado.Id }, hateoasCriado);
     }
 
     [HttpPut]
@@ -48,5 +98,26 @@ public class ProdutoresController(IProdutorService produtorService) : Controller
     public IActionResult Delete(int id)
     {
         return produtorService.Remover(id) ? NoContent() : NotFound();
+    }
+
+    // Método privado para adicionar links HATEOAS
+    private ProdutorHateoasDto AddHateoasLinks(ProdutorResponseDto produtor)
+    {
+        var links = new List<LinkDto>
+        {
+            new(Url.Action(nameof(Get), new { id = produtor.Id })!, "self", "GET"),
+            new(Url.Action(nameof(Put))!, "update", "PUT"),
+            new(Url.Action(nameof(Delete), new { id = produtor.Id })!, "delete", "DELETE"),
+            new(Url.Action(nameof(Get))!, "all", "GET"),
+            new(Url.Action(nameof(Search))!, "search", "GET")
+        };
+
+        return new ProdutorHateoasDto(
+            produtor.Id,
+            produtor.Nome,
+            produtor.DataCadastro,
+            produtor.TipoUsuarioId,
+            links
+        );
     }
 }
