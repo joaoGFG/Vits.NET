@@ -3,7 +3,7 @@
 ## 🎯 Definição do Projeto
 
 ### Objetivo do Projeto
-O Verdantis é um sistema de rastreabilidade e visualização inteligente desenvolvido para resolver a falta de transparência e certificação sustentável na cadeia produtiva agrícola brasileira. O projeto visa fornecer uma plataforma integrada que conecta produtores, distribuidores e compradores, permitindo o registro, visualização e certificação digital de produtos agrícolas, combatendo os R$ 12 bilhões perdidos anualmente em exportações devido à ausência de rastreabilidade[cite: 10, 20].
+O Verdantis é um sistema de rastreabilidade e visualização inteligente desenvolvido para resolver a falta de transparência e certificação sustentável na cadeia produtiva agrícola brasileira. O projeto visa fornecer uma plataforma integrada que conecta produtores, distribuidores e compradores, permitindo o registro, visualização e certificação digital de produtos agrícolas, combatendo os R$ 12 bilhões perdidos anualmente em exportações devido à ausência de rastreabilidade.
 
 ### Escopo
 
@@ -13,6 +13,9 @@ O Verdantis é um sistema de rastreabilidade e visualização inteligente desenv
 * Dashboard interativo utilizando Oracle APEX e Oracle Spatial.
 * Integração com API de clima para apoio à decisão.
 * Protótipo mobile em React Native para consulta de rastreabilidade via QR Code.
+* API RESTful completa com endpoints de busca avançada, paginação, ordenação e filtros.
+* Interface Web MVC com validações completas e layout responsivo.
+* Implementação de HATEOAS para navegação hipermídia na API.
 
 #### Fora do Escopo do MVP:
 * Marketplace integrado entre produtores e compradores.
@@ -28,6 +31,8 @@ O Verdantis é um sistema de rastreabilidade e visualização inteligente desenv
 * **RF04:** Geração de relatórios periódicos via APEX e Python.
 * **RF05:** Integração com API de clima para dados de previsão e histórico.
 * **RF06:** Emissão de QR Code para consulta de rastreabilidade.
+* **RF07:** Endpoints de busca avançada com paginação, ordenação e filtros para todas as entidades.
+* **RF08:** Interface web responsiva com validações de dados em tempo real.
 
 ### Requisitos Não Funcionais:
 * **Transparência:** Cadeia produtiva visível ponta a ponta.
@@ -36,6 +41,7 @@ O Verdantis é um sistema de rastreabilidade e visualização inteligente desenv
 * **Segurança:** Registros imutáveis via Hyperledger Fabric.
 * **Usabilidade:** Acessível para usuários com diferentes níveis de informatização.
 * **Disponibilidade:** Hospedagem no Oracle Cloud Free Tier.
+* **Manutenibilidade:** Código limpo seguindo padrões SOLID e Clean Architecture.
 
 ## 🏗️ Desenho da Arquitetura
 
@@ -43,8 +49,6 @@ O Verdantis é um sistema de rastreabilidade e visualização inteligente desenv
 
 ### Clean Architecture
 O projeto Verdantis segue os princípios da Clean Architecture para garantir separação de responsabilidades, baixo acoplamento e alta coesão entre os componentes do sistema. A arquitetura é organizada em camadas concêntricas, onde as dependências apontam sempre para o centro (domínio), garantindo que as regras de negócio permaneçam independentes de frameworks, UI e infraestrutura.
-
-### Camadas da Aplicação
 
 #### Camada de Apresentação
 * **Estrutura de Pastas:**
@@ -54,20 +58,60 @@ O projeto Verdantis segue os princípios da Clean Architecture para garantir sep
 * **Justificativa:** A camada de apresentação é dividida em três projetos distintos para atender diferentes perfis de usuários. O frontend web oferece interface completa para gestores e compradores, o mobile proporciona acesso simplificado para produtores em campo, e o Oracle APEX fornece prototipação rápida e dashboards analíticos. Esta separação garante que cada interface seja otimizada para seu contexto de uso sem comprometer a lógica de negócio subjacente.
 
 #### Camada de Aplicação
-* **Estrutura:**
-    * `Vits.NET.Application` - Serviços de aplicação e casos de uso.
-* **Responsabilidades:**
-    * Implementação dos casos de uso do sistema.
-    * Orquestração de fluxos entre domínio e infraestrutura.
-    * Definição e implementação de DTOs (Data Transfer Objects).
-    * Manipulação de erros e retorno de respostas apropriadas.
-    * Validação de entrada de dados.
-* **Serviços Principais:**
-    * Serviço de cadastro de produtores e compradores.
-    * Serviço de registro e consulta de lotes agrícolas.
-    * Serviço de geração de relatórios periódicos.
-    * Serviço de emissão de QR Code para rastreabilidade.
-    * Serviço de integração com API de clima.
+* **Estrutura de Pastas:**
+    * `Vits.NET.Web` - Frontend web desenvolvido em ASP.NET Core MVC com interface responsiva e validações completas.
+    * `Vits.NET.API` - API RESTful desenvolvida com Minimal API/Web API incluindo endpoints de busca avançada e HATEOAS.
+    * `Vits.NET.Mobile` - Aplicativo mobile em React Native.
+    * `Vits.NET.APEX` - Dashboards e interfaces no Oracle APEX.
+* **Justificativa:** A camada de apresentação é dividida em projetos distintos para atender diferentes perfis de usuários. O frontend web oferece interface completa para gestores e compradores, o mobile proporciona acesso simplificado para produtores em campo, e o Oracle APEX fornece prototipação rápida e dashboards analíticos. Esta separação garante que cada interface seja otimizada para seu contexto de uso sem comprometer a lógica de negócio subjacente.
+
+#### Implementações da Sprint 2 - Camada Web
+
+##### ASP.NET Core MVC - Views e Layouts
+* **Rotas Padrão e Personalizadas:**
+    * Configuração de rotas padrão para todas as páginas da aplicação seguindo convenções MVC.
+    * Implementação de rotas personalizadas para operações específicas e URLs amigáveis.
+    * Utilização de Route Constraints para validação e segurança.
+
+* **Layout Principal:**
+    * Layout responsivo implementado com Bootstrap 5 customizado.
+    * Cabeçalho com navegação intuitiva e menu responsivo para dispositivos móveis.
+    * Rodapé institucional com informações da equipe GreenCore Team.
+    * Sistema de breadcrumb para melhor navegação e contexto do usuário.
+    * Design mobile-first garantindo usabilidade em todos os dispositivos.
+
+* **Views e ViewModels:**
+    * Desenvolvimento de views para todas as principais funcionalidades (Index, Create, Edit, Details, Delete).
+    * Criação de ViewModels específicas para transferência de dados entre apresentação e lógica de negócio.
+    * Implementação de Data Annotations para validações client-side e server-side.
+    * Mensagens de erro personalizadas e em português para melhor experiência do usuário.
+    * Validações customizadas para regras de negócio específicas do domínio agrícola.
+
+##### API RESTful - Minimal API / Web API
+
+* **Endpoints de Busca Avançada:**
+    * Implementação de rotas `/search` para cada entidade de domínio (Produtores, Compradores, Propriedades, Lotes, Rastreabilidade).
+    * Suporte a paginação através dos parâmetros `pageNumber` e `pageSize`.
+    * Ordenação dinâmica através dos parâmetros `sortBy` e `sortOrder`.
+    * Filtros específicos por entidade para consultas precisas.
+    * Metadata de paginação retornada nos headers da resposta HTTP.
+
+* **HATEOAS (Hypermedia as the Engine of Application State):**
+    * Implementação completa de HATEOAS em todos os endpoints da API.
+    * Cada resposta inclui links hipermídia para recursos relacionados.
+    * Links para operações disponíveis: self, collection, create, update, delete.
+    * Links para entidades relacionadas facilitando navegação entre recursos.
+    * Utilização de métodos HTTP apropriados (GET, POST, PUT, DELETE) nos links.
+
+* **Controllers e Operações CRUD:**
+    * Implementação completa de operações Create, Read, Update, Delete para todas as entidades.
+    * Validação automática de ModelState com retorno de erros padronizados.
+    * Tratamento centralizado de exceções através de middleware customizado.
+    * Respostas HTTP padronizadas seguindo boas práticas REST (200, 201, 204, 400, 404, 500).
+    * Logging estruturado de todas as operações para auditoria e debugging.
+    * Aplicação de padrões de projeto: Repository Pattern, Unit of Work, Dependency Injection.
+    * Validações de regras de negócio específicas do domínio agrícola.
+    * Sanitização de inputs para prevenção de ataques (XSS, SQL Injection).
 
 #### Camada de Domínio
 * **Estrutura:**
@@ -109,17 +153,27 @@ O projeto Verdantis segue os princípios da Clean Architecture para garantir sep
     * Oracle Spatial para processamento geográfico.
     * Python (oracledb, Pandas) para scripts de integração e automação.
 
+**Serviços Principais:**
+    * Serviço de cadastro de produtores e compradores.
+    * Serviço de registro e consulta de lotes agrícolas.
+    * Serviço de geração de relatórios periódicos.
+    * Serviço de emissão de QR Code para rastreabilidade.
+    * Serviço de integração com API de clima.
+    * Serviços de busca avançada com filtros, paginação e ordenação.
+
+
 ---
-### Tecnologias do Projeto
+## 🛠️ Tecnologias do Projeto
 
 | Camada | Tecnologia | Função |
 |---|---|---|
 | **Blockchain** | Hyperledger Fabric | Registro imutável de lotes agrícolas. |
 | **Dados** | Oracle Database | Armazenar propriedades, lotes e transações. |
 | **Geolocalização** | Oracle Spatial | Mapear propriedades e calcular áreas. |
-| **Frontend Web** | Next.js + React | Interface moderna e responsiva. |
+| **Frontend Web** | ASP.NET Core MVC + Bootstrap 5 | Interface web responsiva e moderna. |
+| **API** | ASP.NET Core Web API / Minimal API | API RESTful com HATEOAS e busca avançada. |
 | **Mobile** | React Native | App para produtores e compradores. |
-| **Backend** | Java (Spring Boot) + .NET 9 | API RESTful robusta e escalável. |
+| **Backend** | .NET 9 | Framework principal para toda aplicação. |
 | **Scripts** | Python (oracledb, Pandas) | Integração e geração de relatórios. |
 | **Dashboards** | Oracle APEX | Prototipação rápida e BI. |
 
