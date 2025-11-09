@@ -1,7 +1,19 @@
+using VerdantisBusiness;
+using VerdantisData;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Configurar DbContext com Oracle
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Registrar serviços de negócio e repositórios (Dependency Injection)
+builder.Services.AddScoped<IProdutorService, ProdutorService>();
+builder.Services.AddScoped<IProdutorRepository, ProdutorRepository>();
 
 var app = builder.Build();
 

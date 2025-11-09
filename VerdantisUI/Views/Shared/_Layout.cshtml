@@ -1,47 +1,73 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - VerdantisUI</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - Verdantis VITS</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/VerdantisUI.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-success shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VerdantisUI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand fw-bold" href="/">
+                    <i class="bi bi-tree-fill"></i> Verdantis VITS
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" href="/">
+                                <i class="bi bi-house-door"></i> Home
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" href="/Produtores">
+                                <i class="bi bi-people"></i> Produtores
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Produtores/Search">
+                                <i class="bi bi-search"></i> Buscar
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+    <main role="main" class="pb-3 mb-5">
+        @RenderBody()
+    </main>
+
+    <!-- Footer Compacto -->
+    <footer class="border-top footer text-white bg-success mt-auto py-2 fixed-bottom">
         <div class="container">
-            &copy; 2025 - VerdantisUI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <small>
+                        <i class="bi bi-tree-fill"></i> <strong>Verdantis VITS</strong> |
+                        Sistema de Rastreabilidade e Visualização Inteligente
+                    </small>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <small>
+                        <a href="/Home/Privacy" class="text-white text-decoration-none me-2">
+                            <i class="bi bi-shield-check"></i> Política de Privacidade
+                        </a> |
+                        Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> por GreenCore Team
+                    </small>
+                </div>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

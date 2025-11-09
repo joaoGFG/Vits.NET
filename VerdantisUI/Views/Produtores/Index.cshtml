@@ -1,0 +1,132 @@
+@model List<VerdantisUI.Models.ProdutorDetailsViewModel>
+@{
+    ViewData["Title"] = "Produtores";
+}
+
+<div class="container mt-4">
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-5 text-success">
+            <i class="bi bi-people-fill"></i> Produtores
+        </h1>
+        <div>
+            <a href="/Produtores/Create" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Novo Produtor
+            </a>
+            <a href="/Produtores/Search" class="btn btn-outline-success">
+                <i class="bi bi-search"></i> Buscar
+            </a>
+        </div>
+    </div>
+
+    <!-- Mensagens de Feedback -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Tabela de Produtores -->
+    @if (Model.Any())
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-success">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Data de Cadastro</th>
+                                <th>Tipo de Usuário</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var produtor in Model)
+                            {
+                                <tr>
+                                    <td><strong>#@produtor.Id</strong></td>
+                                    <td>
+                                        @produtor.Nome
+                                        @if (produtor.Id == 1)
+                                        {
+                                            <span class="badge bg-warning text-dark ms-2">
+                                                <i class="bi bi-shield-lock"></i> Protegido
+                                            </span>
+                                        }
+                                    </td>
+                                    <td>@produtor.DataCadastro.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <span class="badge bg-info">
+                                            @if (produtor.TipoUsuarioId == 1)
+                                            {
+                                                <text>Produtor Rural</text>
+                                            }
+                                            else if (produtor.TipoUsuarioId == 2)
+                                            {
+                                                <text>Cooperativa</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Tipo @produtor.TipoUsuarioId</text>
+                                            }
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="/Produtores/Details/@produtor.Id"
+                                               class="btn btn-outline-primary" title="Detalhes">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="/Produtores/Edit/@produtor.Id"
+                                               class="btn btn-outline-warning" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            @if (produtor.Id != 1)
+                                            {
+                                                <a href="/Produtores/Delete/@produtor.Id"
+                                                   class="btn btn-outline-danger" title="Excluir">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-outline-secondary" disabled title="Usuário protegido">
+                                                    <i class="bi bi-shield-lock"></i>
+                                                </button>
+                                            }
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                Total de <strong>@Model.Count</strong> produtor(es) cadastrado(s)
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center" role="alert">
+            <i class="bi bi-info-circle fs-1 d-block mb-3"></i>
+            <h4>Nenhum produtor cadastrado</h4>
+            <p>Comece adicionando um novo produtor ao sistema.</p>
+            <a href="/Produtores/Create" class="btn btn-success mt-2">
+                <i class="bi bi-plus-circle"></i> Cadastrar Primeiro Produtor
+            </a>
+        </div>
+    }
+</div>

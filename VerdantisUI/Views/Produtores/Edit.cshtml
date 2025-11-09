@@ -1,5 +1,97 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model VerdantisUI.Models.ProdutorEditViewModel
 @{
+    ViewData["Title"] = "Editar Produtor";
+}
+
+<div class="container mt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Produtores</a></li>
+            <li class="breadcrumb-item"><a asp-action="Details" asp-route-id="@Model.Id">Detalhes</a></li>
+            <li class="breadcrumb-item active">Editar</li>
+        </ol>
+    </nav>
+
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5 text-warning">
+                <i class="bi bi-pencil-square"></i> Editar Produtor
+            </h1>
+            <p class="text-muted">Atualize as informações do produtor <strong>@Model.Nome</strong></p>
+        </div>
+    </div>
+
+    <!-- Formulário -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-card-list"></i> Dados do Produtor</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <!-- Nome -->
+                        <div class="mb-3">
+                            <label asp-for="Nome" class="form-label fw-bold"></label>
+                            <input asp-for="Nome" class="form-control form-control-lg" />
+                            <span asp-validation-for="Nome" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Tipo de Usuário -->
+                        <div class="mb-4">
+                            <label asp-for="TipoUsuarioId" class="form-label fw-bold"></label>
+                            <select asp-for="TipoUsuarioId" class="form-select form-select-lg">
+                                <option value="">-- Selecione --</option>
+                                <option value="1">Produtor Rural</option>
+                                <option value="2">Cooperativa</option>
+                            </select>
+                            <span asp-validation-for="TipoUsuarioId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-warning btn-lg text-dark">
+                                <i class="bi bi-save"></i> Salvar Alterações
+                            </button>
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-x-circle"></i> Cancelar
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de Informações -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-warning">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-info-circle text-warning"></i> Informações</h6>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-5 small">ID:</dt>
+                        <dd class="col-sm-7 small"><strong>#@Model.Id</strong></dd>
+                        
+                        <dt class="col-sm-5 small">Cadastrado em:</dt>
+                        <dd class="col-sm-7 small">@Model.DataCadastro.ToString("dd/MM/yyyy HH:mm")</dd>
+                    </dl>
+                    <hr>
+                    <p class="small text-muted mb-0">
+                        <i class="bi bi-info-circle"></i> A data de cadastro não pode ser alterada
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

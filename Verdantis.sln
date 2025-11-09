@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerdantisApi", "VerdantisApi\VerdantisApi.csproj", "{2619BC40-F691-4BF1-B764-57656BA130B0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerdantisBusiness", "VerdantisBusiness\VerdantisBusiness.csproj", "{8EAA78FD-21E0-48EB-BCCD-942865C509CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerdantisData", "VerdantisData\VerdantisData.csproj", "{33067615-2CF6-4AEF-B450-6F1976895DD7}"
@@ -25,18 +23,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Debug|x64.Build.0 = Debug|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Debug|x86.Build.0 = Debug|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Release|x64.ActiveCfg = Release|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Release|x64.Build.0 = Release|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Release|x86.ActiveCfg = Release|Any CPU
-		{2619BC40-F691-4BF1-B764-57656BA130B0}.Release|x86.Build.0 = Release|Any CPU
 		{8EAA78FD-21E0-48EB-BCCD-942865C509CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8EAA78FD-21E0-48EB-BCCD-942865C509CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EAA78FD-21E0-48EB-BCCD-942865C509CA}.Debug|x64.ActiveCfg = Debug|Any CPU

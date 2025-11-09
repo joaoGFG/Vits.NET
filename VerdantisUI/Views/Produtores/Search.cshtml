@@ -1,5 +1,200 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model VerdantisUI.Models.ProdutorSearchViewModel
 @{
+    ViewData["Title"] = "Buscar Produtores";
 }
+
+<div class="container mt-4">
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5 text-success">
+                <i class="bi bi-search"></i> Buscar Produtores
+            </h1>
+            <p class="text-muted">Utilize os filtros abaixo para encontrar produtores</p>
+        </div>
+    </div>
+
+    <!-- Formulário de Busca -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0"><i class="bi bi-funnel"></i> Filtros de Busca</h5>
+        </div>
+        <div class="card-body">
+            <form action="/Produtores/Search" method="get">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Nome" class="form-label fw-bold"></label>
+                        <input asp-for="Nome" class="form-control" placeholder="Digite o nome..." />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="PageSize" class="form-label fw-bold"></label>
+                        <select asp-for="PageSize" class="form-select">
+                            <option value="5">5 por página</option>
+                            <option value="10" selected>10 por página</option>
+                            <option value="20">20 por página</option>
+                            <option value="50">50 por página</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="SortBy" class="form-label fw-bold"></label>
+                        <select asp-for="SortBy" class="form-select">
+                            <option value="Nome" selected>Nome</option>
+                            <option value="DataCadastro">Data de Cadastro</option>
+                            <option value="TipoUsuarioId">Tipo de Usuário</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-3">
+                        <div class="form-check form-switch">
+                            <input asp-for="Ascending" class="form-check-input" type="checkbox" role="switch" checked />
+                            <label asp-for="Ascending" class="form-check-label fw-bold"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-9 text-end">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-search"></i> Buscar
+                        </button>
+                        <a href="/Produtores/Search" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-counterclockwise"></i> Limpar
+                        </a>
+                        <a href="/Produtores" class="btn btn-outline-secondary">
+                            <i class="bi bi-list"></i> Ver Todos
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Resultados -->
+    @if (Model.Resultados.Any())
+    {
+        <div class="card shadow-sm">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="bi bi-table"></i> Resultados da Busca
+                </h5>
+                <span class="badge bg-success">@Model.TotalItems resultado(s)</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-success">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Data de Cadastro</th>
+                                <th>Tipo</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var produtor in Model.Resultados)
+                            {
+                                <tr>
+                                    <td><strong>#@produtor.Id</strong></td>
+                                    <td>@produtor.Nome</td>
+                                    <td>@produtor.DataCadastro.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        <span class="badge bg-info">
+                                            @if (produtor.TipoUsuarioId == 1)
+                                            {
+                                                <text>Produtor Rural</text>
+                                            }
+                                            else if (produtor.TipoUsuarioId == 2)
+                                            {
+                                                <text>Cooperativa</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Tipo @produtor.TipoUsuarioId</text>
+                                            }
+                                        </span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="btn-group btn-group-sm">
+                                            <a href="/Produtores/Details/@produtor.Id" class="btn btn-outline-primary" title="Detalhes">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="/Produtores/Edit/@produtor.Id" class="btn btn-outline-warning" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Paginação -->
+            @if (Model.TotalPages > 1)
+            {
+                <div class="card-footer">
+                    <nav>
+                        <ul class="pagination justify-content-center mb-0">
+                            <!-- Primeira página -->
+                            <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+                                <a class="page-link" href="/Produtores/Search?nome=@Model.Nome&page=1&pageSize=@Model.PageSize&sortBy=@Model.SortBy&ascending=@Model.Ascending">
+                                    <i class="bi bi-chevron-double-left"></i>
+                                </a>
+                            </li>
+
+                            <!-- Página anterior -->
+                            <li class="page-item @(!Model.HasPreviousPage ? "disabled" : "")">
+                                <a class="page-link" href="/Produtores/Search?nome=@Model.Nome&page=@(Model.Page - 1)&pageSize=@Model.PageSize&sortBy=@Model.SortBy&ascending=@Model.Ascending">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </li>
+
+                            <!-- Páginas numeradas -->
+                            @for (int i = Math.Max(1, Model.Page - 2); i <= Math.Min(Model.TotalPages, Model.Page + 2); i++)
+                            {
+                                <li class="page-item @(i == Model.Page ? "active" : "")">
+                                    <a class="page-link" href="/Produtores/Search?nome=@Model.Nome&page=@i&pageSize=@Model.PageSize&sortBy=@Model.SortBy&ascending=@Model.Ascending">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+
+                            <!-- Próxima página -->
+                            <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+                                <a class="page-link" href="/Produtores/Search?nome=@Model.Nome&page=@(Model.Page + 1)&pageSize=@Model.PageSize&sortBy=@Model.SortBy&ascending=@Model.Ascending">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+
+                            <!-- Última página -->
+                            <li class="page-item @(!Model.HasNextPage ? "disabled" : "")">
+                                <a class="page-link" href="/Produtores/Search?nome=@Model.Nome&page=@Model.TotalPages&pageSize=@Model.PageSize&sortBy=@Model.SortBy&ascending=@Model.Ascending">
+                                    <i class="bi bi-chevron-double-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="text-center text-muted small mt-2 mb-0">
+                        Página @Model.Page de @Model.TotalPages | Total: @Model.TotalItems resultado(s)
+                    </p>
+                </div>
+            }
+        </div>
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.Nome))
+    {
+        <div class="alert alert-warning text-center">
+            <i class="bi bi-search fs-1 d-block mb-3"></i>
+            <h4>Nenhum resultado encontrado</h4>
+            <p>Tente refinar sua busca ou utilizar outros filtros.</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle fs-1 d-block mb-3"></i>
+            <h4>Realize uma busca</h4>
+            <p>Utilize os filtros acima para encontrar produtores.</p>
+        </div>
+    }
+</div>

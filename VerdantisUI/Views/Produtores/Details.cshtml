@@ -1,5 +1,128 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model VerdantisUI.Models.ProdutorDetailsViewModel
 @{
+    ViewData["Title"] = "Detalhes do Produtor";
 }
+
+<div class="container mt-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/Produtores">Produtores</a></li>
+            <li class="breadcrumb-item active">Detalhes</li>
+        </ol>
+    </nav>
+
+    <!-- Mensagens -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Cabeçalho -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5 text-primary">
+                <i class="bi bi-person-badge"></i> Detalhes do Produtor
+                @if (Model.Id == 1)
+                {
+                    <span class="badge bg-warning text-dark fs-6 ms-2">
+                        <i class="bi bi-shield-lock"></i> Usuário Protegido
+                    </span>
+                }
+            </h1>
+        </div>
+        <div class="col-auto">
+            <div class="btn-group">
+                <a href="/Produtores/Edit/@Model.Id" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+                @if (Model.Id != 1)
+                {
+                    <a href="/Produtores/Delete/@Model.Id" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Excluir
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Card de Detalhes (Largura Total) -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Informações Completas</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.Id == 1)
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            <i class="bi bi-shield-lock"></i> <strong>Usuário Protegido:</strong> Este é o usuário padrão do sistema e não pode ser excluído.
+                        </div>
+                    }
+                    <dl class="row">
+                        <dt class="col-sm-3">ID:</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge bg-secondary fs-6">#@Model.Id</span>
+                        </dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Nome):</dt>
+                        <dd class="col-sm-9">
+                            <h4 class="text-success mb-0">@Model.Nome</h4>
+                        </dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(m => m.DataCadastro):</dt>
+                        <dd class="col-sm-9">
+                            <i class="bi bi-calendar-check text-muted"></i>
+                            @Model.DataCadastro.ToString("dd/MM/yyyy HH:mm")
+                        </dd>
+
+                        <dt class="col-sm-3">@Html.DisplayNameFor(m => m.TipoUsuarioId):</dt>
+                        <dd class="col-sm-9">
+                            <span class="badge bg-info text-dark">
+                                @if (Model.TipoUsuarioId == 1)
+                                {
+                                    <text>Produtor Rural</text>
+                                }
+                                else if (Model.TipoUsuarioId == 2)
+                                {
+                                    <text>Cooperativa</text>
+                                }
+                                else
+                                {
+                                    <text>Tipo @Model.TipoUsuarioId</text>
+                                }
+                            </span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="/Produtores" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Voltar para Lista
+                    </a>
+                    <div class="btn-group">
+                        <a href="/Produtores/Edit/@Model.Id" class="btn btn-warning">
+                            <i class="bi bi-pencil-square"></i> Editar
+                        </a>
+                        @if (Model.Id != 1)
+                        {
+                            <a href="/Produtores/Delete/@Model.Id" class="btn btn-danger">
+                                <i class="bi bi-trash-fill"></i> Excluir
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
