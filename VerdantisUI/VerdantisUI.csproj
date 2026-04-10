@@ -7,10 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VerdantisApi\VerdantisApi.csproj" />
     <ProjectReference Include="..\VerdantisBusiness\VerdantisBusiness.csproj" />
     <ProjectReference Include="..\VerdantisData\VerdantisData.csproj" />
     <ProjectReference Include="..\VerdantisModel\VerdantisModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.Oracle" Version="9.0.0" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.15.2" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.15.2" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.1" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
   </ItemGroup>
 
 </Project>
