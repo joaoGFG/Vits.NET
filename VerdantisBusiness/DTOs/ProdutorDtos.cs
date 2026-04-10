@@ -2,7 +2,8 @@
 
 public record ProdutorCreateDto(
     string Nome,
-    int TipoUsuarioId
+    int TipoUsuarioId,
+    string Senha
 );
 
 public record ProdutorUpdateDto(

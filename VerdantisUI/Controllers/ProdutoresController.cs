@@ -101,7 +101,7 @@ public class ProdutoresController : Controller
 
         try
         {
-            var dto = new ProdutorCreateDto(viewModel.Nome.Trim(), viewModel.TipoUsuarioId);
+            var dto = new ProdutorCreateDto(viewModel.Nome.Trim(), viewModel.TipoUsuarioId, viewModel.Senha);
             var criado = _produtorService.Criar(dto);
 
             TempData["Success"] = $"Produtor '{criado.Nome}' cadastrado com sucesso!";

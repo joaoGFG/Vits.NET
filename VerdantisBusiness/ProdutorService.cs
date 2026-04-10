@@ -19,6 +19,7 @@ public class ProdutorService(IProdutorRepository repo) : IProdutorService
         {
             Nome = dto.Nome.Trim(),
             TipoUsuarioId = dto.TipoUsuarioId,
+            Senha = dto.Senha, 
             DataCadastro = DateTime.UtcNow
         };
 

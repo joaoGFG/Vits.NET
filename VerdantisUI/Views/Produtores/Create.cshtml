@@ -52,6 +52,13 @@
                             <span asp-validation-for="TipoUsuarioId" class="text-danger small"></span>
                         </div>
 
+                        <!-- Senha -->
+                        <div class="mb-4">
+                            <label asp-for="Senha" class="form-label fw-bold"></label>
+                            <input asp-for="Senha" type="password" class="form-control form-control-lg" placeholder="Digite a senha" />
+                            <span asp-validation-for="Senha" class="text-danger small"></span>
+                        </div>
+
                         <!-- Botões -->
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-success btn-lg">

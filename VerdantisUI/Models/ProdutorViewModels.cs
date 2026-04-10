@@ -16,6 +16,12 @@ public class ProdutorCreateViewModel
     [Display(Name = "Tipo de Usuário")]
     [Range(1, int.MaxValue, ErrorMessage = "Selecione um tipo de usuário válido")]
     public int TipoUsuarioId { get; set; }
+
+    [Required(ErrorMessage = "A senha é obrigatória")]
+    [StringLength(100, MinimumLength = 6, ErrorMessage = "A senha deve ter no mínimo 6 caracteres")]
+    [DataType(DataType.Password)]
+    [Display(Name = "Senha")]
+    public string Senha { get; set; } = string.Empty;
 }
 
 /// <summary>

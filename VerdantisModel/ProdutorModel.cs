@@ -9,4 +9,6 @@ public class ProdutorModel
     public DateTime DataCadastro { get; set; }
 
     public int TipoUsuarioId { get; set; }
+
+    public required string Senha { get; set; } 
 }

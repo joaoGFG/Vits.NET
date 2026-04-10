@@ -26,5 +26,10 @@ public class ProdutorConfiguration : IEntityTypeConfiguration<ProdutorModel>
         builder.Property(p => p.TipoUsuarioId)
             .HasColumnName("ID_TIPO_USUARIO")
             .IsRequired();
+
+        builder.Property(p => p.Senha)
+            .HasColumnName("VITS_SENHA_USUARIO")
+            .IsRequired()
+            .HasMaxLength(100); 
     }
 }
