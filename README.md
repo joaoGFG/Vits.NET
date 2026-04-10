@@ -113,6 +113,27 @@ O projeto Verdantis segue os princípios da Clean Architecture para garantir sep
     * Validações de regras de negócio específicas do domínio agrícola.
     * Sanitização de inputs para prevenção de ataques (XSS, SQL Injection).
 
+---
+
+#### 🚀 Implementações da Sprint 3 - Monitoramento, Observabilidade e Testes
+
+##### Monitoramento e Observabilidade
+* **Health Checks:** Implementação de endpoints para monitoramento contínuo da saúde da aplicação e da disponibilidade do banco de dados (Oracle). Visite `https://localhost:<porta>/health` para validar o status.
+* **Logging Estruturado:** Configuração do pacote **Serilog** substituindo o logger padrão. Registro de eventos (Information, Warning, Error), injeção de correlação de requests e arquivamento em rotatividade diária (`logs/log-<data>.txt`).
+* **Tracing e Métricas (OpenTelemetry):** Rastreamento distribuído de requisições HTTP e métricas do ASP.NET Core configurados para diagnosticar gargalos de performance, mapeando requisições e exportando telemetria para o console (ambiente local).
+
+##### Qualidade de Software: Testes Automatizados (Padrão AAA)
+* **Testes Unitários:** Criação do projeto `Verdantis.Tests.Unit` utilizando o framework **xUnit** para validação das regras de negócio (Camada de Aplicação). Dependências isoladas com a biblioteca de mocks **Moq**, garantindo testes previsíveis seguindo o padrão Arrange-Act-Assert.
+* **Testes de Integração:** Criação do projeto `Verdantis.Tests.Integration` para testar fluxos reais da API (Controller -> Repositories -> Banco na Memória/Mock HTTP) utilizando o pacote `WebApplicationFactory`, cobrindo requisições HTTP, validação de rotas e Health Checks.
+
+##### 🧪 Como executar os testes automatizados
+No seu terminal (na pasta raiz da solução), execute:
+* Para rodar **todos** os testes: `dotnet test`
+* Para rodar apenas os testes **Unitários**: `dotnet test Verdantis.Tests.Unit/Verdantis.Tests.Unit.csproj`
+* Para rodar apenas os testes de **Integração**: `dotnet test Verdantis.Tests.Integration/Verdantis.Tests.Integration.csproj`
+
+---
+
 #### Camada de Domínio
 * **Estrutura:**
     * `Vits.NET.Domain` - Entidades, interfaces de repositório e regras de negócio.
@@ -161,7 +182,6 @@ O projeto Verdantis segue os princípios da Clean Architecture para garantir sep
     * Serviço de integração com API de clima.
     * Serviços de busca avançada com filtros, paginação e ordenação.
 
-
 ---
 ## 🛠️ Tecnologias do Projeto
 
@@ -176,6 +196,7 @@ O projeto Verdantis segue os princípios da Clean Architecture para garantir sep
 | **Backend** | .NET 9 | Framework principal para toda aplicação. |
 | **Scripts** | Python (oracledb, Pandas) | Integração e geração de relatórios. |
 | **Dashboards** | Oracle APEX | Prototipação rápida e BI. |
+| **Monitoramento/Qualidade** | XUnit, Moq, OpenTelemetry, Serilog | Observabilidade de ponta a ponta e testes automatizados de comportamento e integração. |
 
 ---
 ### Equipe
